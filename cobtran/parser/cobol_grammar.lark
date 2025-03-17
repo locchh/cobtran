@@ -1,0 +1,94 @@
+// COBOL Grammar for Lark parser
+// This is a simplified grammar for demonstration purposes
+
+start: program
+
+program: identification_division [environment_division] [data_division] [procedure_division]
+
+identification_division: "IDENTIFICATION" "DIVISION" "." id_entries
+id_entries: program_id_entry [author_entry] [installation_entry] [date_written_entry] [date_compiled_entry] [security_entry]
+program_id_entry: "PROGRAM-ID" "." NAME "."
+author_entry: "AUTHOR" "." TEXT "."
+installation_entry: "INSTALLATION" "." TEXT "."
+date_written_entry: "DATE-WRITTEN" "." TEXT "."
+date_compiled_entry: "DATE-COMPILED" "." TEXT "."
+security_entry: "SECURITY" "." TEXT "."
+
+environment_division: "ENVIRONMENT" "DIVISION" "." [configuration_section] [input_output_section]
+configuration_section: "CONFIGURATION" "SECTION" "." config_entries
+config_entries: [source_computer_entry] [object_computer_entry] [special_names_entry]
+source_computer_entry: "SOURCE-COMPUTER" "." TEXT "."
+object_computer_entry: "OBJECT-COMPUTER" "." TEXT "."
+special_names_entry: "SPECIAL-NAMES" "." special_names_body "."
+special_names_body: special_name*
+special_name: TEXT
+
+input_output_section: "INPUT-OUTPUT" "SECTION" "." io_entries
+io_entries: [file_control_entry] [i_o_control_entry]
+file_control_entry: "FILE-CONTROL" "." file_control_body "."
+file_control_body: select_statement*
+select_statement: "SELECT" [OPTIONAL] filename "ASSIGN" "TO" device_name file_attributes "."
+file_attributes: file_attribute*
+file_attribute: ORGANIZATION_CLAUSE | ACCESS_MODE_CLAUSE | RECORD_KEY_CLAUSE
+i_o_control_entry: "I-O-CONTROL" "." io_control_body "."
+io_control_body: io_control_statement*
+
+data_division: "DATA" "DIVISION" "." data_sections
+data_sections: [file_section] [working_storage_section] [linkage_section]
+
+file_section: "FILE" "SECTION" "." file_descriptions
+file_descriptions: file_description*
+file_description: "FD" filename record_description
+
+working_storage_section: "WORKING-STORAGE" "SECTION" "." ws_entries
+ws_entries: (level_item | copy_statement)*
+
+linkage_section: "LINKAGE" "SECTION" "." linkage_entries
+linkage_entries: level_item*
+
+level_item: level_number [data_name] [REDEFINES data_name] level_clauses "."
+level_number: NUMBER
+level_clauses: level_clause*
+level_clause: PICTURE_CLAUSE | VALUE_CLAUSE | USAGE_CLAUSE
+
+procedure_division: "PROCEDURE" "DIVISION" ["USING" data_item_list] "." procedure_body
+procedure_body: (section | paragraph)*
+section: section_name "SECTION" "." paragraph*
+section_name: NAME
+paragraph: paragraph_name "." statement*
+paragraph_name: NAME
+statement: move_statement | if_statement | perform_statement | call_statement | other_statement
+
+move_statement: "MOVE" (data_item | literal) "TO" data_item_list
+if_statement: "IF" condition statement* ["ELSE" statement*] "END-IF"
+perform_statement: "PERFORM" (paragraph_name | perform_thru) [perform_times | perform_until]
+perform_thru: paragraph_name "THRU" paragraph_name
+perform_times: NUMBER "TIMES"
+perform_until: "UNTIL" condition
+
+call_statement: "CALL" (literal | data_item) ["USING" data_item_list]
+other_statement: TEXT
+
+data_item_list: data_item ("," data_item)*
+data_item: qualified_data_name | subscripted_data_name
+qualified_data_name: NAME ("OF" | "IN") NAME
+subscripted_data_name: NAME "(" data_item ")"
+
+condition: simple_condition | complex_condition
+simple_condition: data_item (comparison_op (data_item | literal))
+comparison_op: "=" | ">" | "<" | ">=" | "<=" | "<>"
+complex_condition: simple_condition (("AND" | "OR") simple_condition)*
+
+literal: STRING_LITERAL | NUMBER_LITERAL
+STRING_LITERAL: /"[^"]*"/
+NUMBER_LITERAL: /\d+(\.\d+)?/
+
+// Terminal tokens
+NAME: /[A-Z][A-Z0-9-]*/
+TEXT: /[^\.]*/
+NUMBER: /\d+/
+
+// Whitespace and comments
+COMMENT: "*" /[^\n]*/
+%ignore COMMENT
+%ignore /[ \t\f\r\n]+/

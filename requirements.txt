@@ -1,0 +1,12 @@
+# Core dependencies
+lark==1.2.2        # For parsing COBOL
+click==8.1.3        # CLI tools
+jinja2==3.1.2       # Template engine for code generation
+
+# Development dependencies
+pytest==7.3.1
+pytest-cov==4.1.0
+black==23.3.0
+isort==5.12.0
+flake8==6.0.0
+mypy==1.3.0
