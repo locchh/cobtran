@@ -8,54 +8,56 @@ COBTRAN supports the standard COBOL program structure:
 
 ### Divisions
 
-- ✅ IDENTIFICATION DIVISION
-- ✅ ENVIRONMENT DIVISION
-- ✅ DATA DIVISION
-- ✅ PROCEDURE DIVISION
+- ✅ IDENTIFICATION DIVISION – Describes metadata about the program, such as its name, author, and creation date.
+- ✅ ENVIRONMENT DIVISION – Specifies the system-dependent aspects of the program, including input/output device details.
+- ✅ DATA DIVISION – Declares the data structures and storage areas used by the program.
+- ✅ PROCEDURE DIVISION – Contains the executable code or logic of the program.
 
 ### Sections
 
 #### Identification Division
-- ✅ PROGRAM-ID
-- ✅ AUTHOR
-- ✅ INSTALLATION
-- ✅ DATE-WRITTEN
-- ✅ DATE-COMPILED
-- ✅ SECURITY
+- ✅ PROGRAM-ID– Names the program and acts as its identifier.
+- ✅ AUTHOR – Documents the name of the person who wrote the program.
+- ✅ INSTALLATION – Describes the system or organization where the program was developed or is intended to run.
+- ✅ DATE-WRITTEN – Indicates when the program was created.
+- ✅ DATE-COMPILED – States the last compilation date of the program.
+- ✅ SECURITY – Provides security classification or comments related to the program’s use or handling.
 
 #### Environment Division
-- ✅ CONFIGURATION SECTION
-- ✅ INPUT-OUTPUT SECTION
-- ✅ FILE-CONTROL
-- ✅ I-O-CONTROL
+- ✅ CONFIGURATION SECTION – Defines hardware and software environment details (e.g., source/computer system).
+- ✅ INPUT-OUTPUT SECTION – Declares external files/devices and how they are to be handled.
+- ✅ FILE-CONTROL – Lists the files that the program will use and their access methods.
+- ✅ I-O-CONTROL – Controls the input-output operations such as buffering strategies.
 
 #### Data Division
-- ✅ FILE SECTION
-- ✅ WORKING-STORAGE SECTION
-- ✅ LINKAGE SECTION
+- ✅ FILE SECTION – Declares the structure of external files used in the program.
+- ✅ WORKING-STORAGE SECTION – Defines temporary variables and data structures used during execution.
+- ✅ LINKAGE SECTION – Defines parameters passed between the main program and called subprograms (used for inter-program communication).
 
 ## Data Types and Descriptions
 
 ### Data Items
 
-- ✅ Level numbers (01-49, 66, 77, 88)
-- ✅ Group items
-- ✅ Elementary items
-- ✅ REDEFINES clause
-- ✅ OCCURS clause
-- ✅ VALUE clause
-- ✅ PICTURE/PIC clause
-- ✅ Basic data types (numeric, alphanumeric)
+- ✅ Level numbers (01-49, 66, 77, 88) – Indicate the hierarchy of data items in the Data Division; 01 typically defines a group item, 77 is for standalone items, 66 is for RENAMES, and 88 defines condition names.
+- ✅ Group items – A data item that contains other items (like a struct or record); declared with level number 01 or higher.
+- ✅ Elementary items – The smallest indivisible data item (i.e., does not contain other items); used to hold individual values.
+- ✅ REDEFINES clause – Allows multiple data definitions to share the same memory area, supporting different interpretations of the same data.
+- ✅ OCCURS clause – Used to define arrays or tables by specifying how many times a data item repeats.
+- ✅ VALUE clause – Assigns a default or initial value to a data item when the program begins execution.
+- ✅ PICTURE/PIC clause – Describes the data type, size, and format of the variable (e.g., numeric, alphanumeric).
+- ✅ Basic data types (numeric, alphanumeric) – COBOL supports simple data types like numbers (with or without signs/decimals) and character strings.
+
+
 - ⚠️ Complex data types (partial support)
 
 ### PICTURE Clause Symbols
 
-- ✅ 9 - Numeric
-- ✅ A - Alphabetic
-- ✅ X - Alphanumeric
-- ✅ V - Implied decimal point
-- ✅ S - Sign
-- ✅ Z - Leading zero suppression
+- ✅ 9 - Numeric – Numeric digit placeholder; each 9 represents a position for one digit.
+- ✅ A - Alphabetic – Alphabetic character placeholder; accepts only letters.
+- ✅ X - Alphanumeric – Alphanumeric character placeholder; accepts letters, digits, and symbols.
+- ✅ V - Implied decimal point – Implied decimal point; does not occupy space in memory but affects how numbers are interpreted.
+- ✅ S - Sign ; specifies whether the value is positive or negative.
+- ✅ Z - Leading zero suppression – Suppresses leading zeros in numeric display.
 - ✅ . - Actual decimal point
 - ✅ + - Sign
 - ✅ - - Sign
@@ -65,25 +67,25 @@ COBTRAN supports the standard COBOL program structure:
 
 ### Statements
 
-- ✅ MOVE
-- ✅ IF/ELSE
-- ✅ PERFORM
-- ✅ DISPLAY
-- ✅ ACCEPT
-- ✅ COMPUTE
-- ✅ ADD
-- ✅ SUBTRACT
-- ✅ MULTIPLY
-- ✅ DIVIDE
-- ✅ CALL
-- ✅ STOP RUN
-- ✅ GO TO
-- ✅ EXIT PROGRAM
+- ✅ MOVE – Copies a value from one variable to another.
+- ✅ IF/ELSE – Implements conditional logic for branching code execution.
+- ✅ PERFORM – Executes a block of code, like a loop or procedure call.
+- ✅ DISPLAY – Outputs text or data to the screen or console.
+- ✅ ACCEPT – Receives input from the user or system.
+- ✅ COMPUTE – Performs arithmetic operations and assigns the result.
+- ✅ ADD – Adds one or more numbers.
+- ✅ SUBTRACT – Subtracts one or more numbers.
+- ✅ MULTIPLY – Multiplies numbers.
+- ✅ DIVIDE – Divides numbers.
+- ✅ CALL – Invokes a subprogram or external routine.
+- ✅ STOP RUN – Terminates the program.
+- ✅ GO TO – Unconditional jump to another section of code.
+- ✅ EXIT PROGRAM – Exits a subprogram and returns control to the calling program.
 - ⚠️ Other statements (partial support)
 
 ### Expressions
 
-- ✅ Arithmetic expressions
+- ✅ Arithmetic expressions – Support basic math operations (e.g., A + B * C).
 - ✅ Conditional expressions
 - ✅ Comparison operators
 - ✅ Logical operators (AND, OR, NOT)
@@ -92,16 +94,16 @@ COBTRAN supports the standard COBOL program structure:
 ## File Handling
 
 - ✅ Basic file operations (OPEN, CLOSE, READ, WRITE)
-- ✅ Sequential files
-- ⚠️ Indexed files (partial support)
-- ⚠️ Relative files (partial support)
+- ✅ Sequential files – Boolean expressions used in IF, EVALUATE, etc.
+- ⚠️ Indexed files (partial support) – =, <, >, <=, >=, <> to compare values.
+- ⚠️ Relative files (partial support) – Combine multiple conditions for decision-making.
 - ⚠️ Advanced file operations (partial support)
 
 ## Special Features
 
-- ✅ Formatted COBOL (fixed column format)
-- ✅ Free-format COBOL
-- ✅ COPY statement (basic support)
+- ✅ Formatted COBOL (fixed column format) – Traditional COBOL format with strict column placement (e.g., Area A/B rules).
+- ✅ Free-format COBOL – More flexible syntax introduced in newer COBOL versions; less strict about indentation and column alignment.
+- ✅ COPY statement (basic support) – Reuses code/data definitions by copying from external files or libraries.
 - ⚠️ REPLACING option in COPY
 - ⚠️ EXEC SQL/CICS/DLI (limited support)
 - ⚠️ Compiler directives (limited support)
